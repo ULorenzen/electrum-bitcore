@@ -3,6 +3,7 @@
 # python setup.py sdist --format=zip,gztar
 
 from setuptools import setup
+from distutils.core import Extension
 import os
 import sys
 import platform
@@ -35,11 +36,29 @@ if platform.system() in ['Linux', 'FreeBSD', 'DragonFly']:
             usr_share = os.path.expanduser('~/.local/share')
     data_files += [
         (os.path.join(usr_share, 'applications/'), ['electrum.desktop']),
-        (os.path.join(usr_share, 'pixmaps/'), ['icons/electrum.png'])
+        (os.path.join(usr_share, 'pixmaps/'), ['icons/electrumBTX.png'])
     ]
+ext = Extension('_powhash',
+                 define_macros = [('MAJOR_VERSION', '1'),
+                                  ('MINOR_VERSION', '0')],
+                 include_dirs = ['/usr/local/include',
+                                 'btxcext/inc'],
+                 sources = ['btxcext/_powhash.cpp',
+                            'btxcext/aes_helper.c',
+                            'btxcext/blake.c',
+                            'btxcext/bmw.c',
+                            'btxcext/groestl.c',
+                            'btxcext/jh.c',
+                            'btxcext/keccak.c',
+                            'btxcext/skein.c',
+                            'btxcext/luffa.c',
+                            'btxcext/cubehash.c',
+                            'btxcext/shavite.c',
+                            'btxcext/simd.c',
+                            'btxcext/echo.c'])
 
 setup(
-    name="Electrum",
+    name="Electrum-BitCore",
     version=version.ELECTRUM_VERSION,
     install_requires=requirements,
     extras_require={
@@ -70,7 +89,7 @@ setup(
     },
     package_data={
         'electrum': [
-            'servers.json',
+            'servers_bitcore.json',
             'servers_testnet.json',
             'currencies.json',
             'checkpoints.json',
@@ -80,12 +99,13 @@ setup(
             'locale/*/LC_MESSAGES/electrum.mo',
         ]
     },
-    scripts=['electrum'],
+    scripts=['electrum-bitcore'],
     data_files=data_files,
-    description="Lightweight Bitcoin Wallet",
+    description="Lightweight BitCore Wallet",
     author="Thomas Voegtlin",
     author_email="thomasv@electrum.org",
     license="MIT Licence",
-    url="https://electrum.org",
-    long_description="""Lightweight Bitcoin Wallet"""
+    url="https://bitcore.cc",
+    long_description="""Lightweight BitCore Wallet""",
+    ext_modules = [ext]
 )

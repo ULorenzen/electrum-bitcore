@@ -109,7 +109,7 @@ class Exception_Window(QWidget):
     def send_report(self):
         if constants.net.GENESIS[-4:] not in ["4943", "e26f"] and ".electrum.org" in report_server:
             # Gah! Some kind of altcoin wants to send us crash reports.
-            self.main_window.show_critical(_("Please report this issue manually."))
+            self.main_window.show_critical(_("Please report this issue manually to BitCore."))
             return
         report = self.get_traceback_info()
         report.update(self.get_additional_info())

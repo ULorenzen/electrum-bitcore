@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Electrum - lightweight Bitcoin client
+# Electrum - lightweight Bitcore client
 # Copyright (C) 2018 The Electrum developers
 #
 # Permission is hereby granted, free of charge, to any person
@@ -37,16 +37,16 @@ def read_json(filename, default):
     return r
 
 
-class BitcoinMainnet:
+class BitcoreMainnet:
 
     TESTNET = False
     WIF_PREFIX = 0x80
     ADDRTYPE_P2PKH = 0
     ADDRTYPE_P2SH = 5
     SEGWIT_HRP = "bc"
-    GENESIS = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
+    GENESIS = "604148281e5c4b7f2487e5d03cd60d8e6f69411d613f6448034508cea52e9574"
     DEFAULT_PORTS = {'t': '50001', 's': '50002'}
-    DEFAULT_SERVERS = read_json('servers.json', {})
+    DEFAULT_SERVERS = read_json('servers_bitcore.json', {})
     CHECKPOINTS = read_json('checkpoints.json', [])
 
     XPRV_HEADERS = {
@@ -65,7 +65,7 @@ class BitcoinMainnet:
     }
 
 
-class BitcoinTestnet:
+class BitcoreTestnet:
 
     TESTNET = True
     WIF_PREFIX = 0xef
@@ -94,14 +94,14 @@ class BitcoinTestnet:
 
 
 # don't import net directly, import the module instead (so that net is singleton)
-net = BitcoinMainnet
+net = BitcoreMainnet
 
 
 def set_mainnet():
     global net
-    net = BitcoinMainnet
+    net = BitcoreMainnet
 
 
 def set_testnet():
     global net
-    net = BitcoinTestnet
+    net = BitcoreTestnet

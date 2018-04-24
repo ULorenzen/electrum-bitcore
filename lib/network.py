@@ -187,7 +187,7 @@ class Network(util.DaemonThread):
         self.lock = threading.Lock()
         self.pending_sends = []
         self.message_id = 0
-        self.debug = False
+        self.debug = True
         self.irc_servers = {} # returned by interface (list from irc)
         self.recent_servers = self.read_recent_servers()
 
@@ -525,12 +525,12 @@ class Network(util.DaemonThread):
         self.save_recent_servers()
 
     def process_response(self, interface, response, callbacks):
-        if self.debug:
-            self.print_error("<--", response)
         error = response.get('error')
         result = response.get('result')
         method = response.get('method')
         params = response.get('params')
+        if self.debug:
+            self.print_error("<--", response)
 
         # We handle some responses; return the rest to the client.
         if method == 'server.version':
@@ -579,6 +579,7 @@ class Network(util.DaemonThread):
 
     def process_responses(self, interface):
         responses = interface.get_responses()
+        proc_count = 0
         for request, response in responses:
             if request:
                 method, params, message_id = request
@@ -623,6 +624,11 @@ class Network(util.DaemonThread):
                 self.sub_cache[k] = response
             # Response is now in canonical form
             self.process_response(interface, response, callbacks)
+            # if we received several responses recv_time has to be reset here
+            # otherwise SocketPipe may time out on next read
+            proc_count += 1
+            if proc_count > 0:
+                interface.pipe.set_recv_time()
 
     def addr_to_scripthash(self, addr):
         h = bitcoin.address_to_scripthash(addr)

@@ -1,6 +1,8 @@
 <RCC>
   <qresource prefix="/" >
     <file>icons/electrum.png</file>
+    <file>icons/electrum_BTX.png</file>
+    <file>icons/btx_web.png</file>
     <file>icons/clock1.png</file>
     <file>icons/clock2.png</file>
     <file>icons/clock3.png</file>

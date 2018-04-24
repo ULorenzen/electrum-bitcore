@@ -319,7 +319,7 @@ class Interface(util.PrintError):
         '''Returns True if the interface has timed out.'''
         if (self.unanswered_requests and time.time() - self.request_time > 10
             and self.pipe.idle_time() > 10):
-            self.print_error("timeout", len(self.unanswered_requests))
+            self.print_error("timeout", len(self.unanswered_requests), self.pipe.idle_time())
             return True
 
         return False
@@ -346,7 +346,7 @@ class Interface(util.PrintError):
                     self.print_error("connection closed remotely")
                 break
             if self.debug:
-                self.print_error("<--", response)
+                self.print_error("<---", response)
             wire_id = response.get('id', None)
             if wire_id is None:  # Notification
                 responses.append((None, response))

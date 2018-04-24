@@ -3,7 +3,7 @@ include README.rst
 include electrum.conf.sample
 include electrum.desktop
 include *.py
-include electrum
+include electrum-bitcore
 recursive-include lib *.py
 recursive-include gui *.py
 recursive-include plugins *.py
@@ -13,4 +13,5 @@ include app.fil
 include icons.qrc
 recursive-include icons *
 recursive-include scripts *
+recursive-include btxcext/inc *
 
